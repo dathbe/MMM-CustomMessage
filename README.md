@@ -1,23 +1,17 @@
-## MMM-CustomMessage
+# MMM-CustomMessage
 
 This module allows you to post a message to MagicMirror either by MagicMirror² API post or manual update (entering text onscreen). 
 
 ![Example Image](example1.png)
 
-Features:
+## Features
 
 * You can update the mirror display in real time (Live), as it's running, without quitting or reloading MM.
-
 * You can use multiple instances by simply adding another config entry.
-
 * Each instance can have its own heading. Headers are self-centering.
-
-* The module has an API allowing for messages to be set remotely with a POST request. For example, you could use the API combined with Microsoft Power Automate to set a message on the screen whenever a message is sent to a specific teams channel. 
-
+* The module has an API allowing for messages to be set remotely with a POST request. For example, you could use the API combined with Microsoft Power Automate to set a message on the screen whenever a message is sent to a specific teams channel.
 * The module has a reset function that can allow for the message to be cleared automatically at a specified time daily.
-
 * The module has a history option to allow the last sent message to survive browser reloads/systems restarts.
-
 * You can specify custom CSS by editing the MMM-CustomMessage.css file in this module's CSS folder
 
 ## Requirements and recommendations
@@ -29,6 +23,7 @@ You will need a keyboard for text entry and a mouse to click the module into edi
 * `git clone https://github.com/jpcaldwell30/MMM-CustomMessage` into the `~/MagicMirror/modules` directory.
 
 ## Config.js entry and options
+
 ```js
 {
     disabled: false,
@@ -66,7 +61,8 @@ You will need a keyboard for text entry and a mouse to click the module into edi
     }
 },
 ```
-## How to use manual entry.
+
+## How to use manual entry
 
 * Click the default text to enter edit mode.
 * Delete the default text and create your items.
@@ -74,10 +70,13 @@ You will need a keyboard for text entry and a mouse to click the module into edi
 * When you are done, click anywhere outside the text area of the module.
 * When you want to edit again, click the text of the module to enter edit mode.
 
-## How to use the API.
+## How to use the API
+
 The API uses MagicMirror's ExpressApp backend. The default endpoint is `http:\\<your MagicMirror url or ip and port> + \custom-message` For example: `http:\\localhost:8080\custom-message` The endpoint accepts POST requests with a JSON body of the form:
 
+```js
 {
   "messageHeader": "Message Header Message",
   "message": "Message Text"
 }
+```
