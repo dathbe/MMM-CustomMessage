@@ -129,18 +129,20 @@ Module.register("MMM-CustomMessage", {
    },
 
    /* Function to read content from local file */
-	readFileContent: function (callback) {
-		var xobj = new XMLHttpRequest(), 
-			path = this.file('message-history.json'); 
-		xobj.overrideMimeType("application/json"); 
-		xobj.open("GET", path, true); 
-		xobj.onreadystatechange = function () { 
-			if (xobj.readyState === 4 && xobj.status === 200) { 
-				callback(xobj.responseText); 
-			} 
-		}; 
-		xobj.send(null); 
-	}, 
+    readFileContent: async function (callback) {
+        var path = this.file('message-history.json'); 
+        try {
+            let response = await fetch(path);
+            if (response.ok) { 
+                let text = await response.text();
+                callback(text); 
+            } else {
+                Log.error('HTTP error: ' + response.status);
+            }
+        } catch (error) {
+            Log.error('Fetch error: ' + error.message);
+        }
+    }, 
 
     // Function to handle socket notifications
     socketNotificationReceived: function (notification, payload) {
