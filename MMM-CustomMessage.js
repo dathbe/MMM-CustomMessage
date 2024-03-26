@@ -36,14 +36,14 @@ Module.register("MMM-CustomMessage", {
 
     // Function called when the module starts
     start: function() {
-        console.log('[' + this.name + '] Initial Start'); // Log initial start message
+        Log.log('[' + this.name + '] Initial Start'); // Log initial start message
         this.sendResetConfig(); // Send reset configuration
     },
 
     // Function to send reset configuration
     sendResetConfig: function() {
         let resetConfig = this.config.resetMessage; // Get reset message from config
-        console.log(this.name + "Sending reset message enabled with config: " + JSON.stringify(resetConfig)); // Log reset message configuration
+        Log.log(this.name + "Sending reset message enabled with config: " + JSON.stringify(resetConfig)); // Log reset message configuration
         this.sendSocketNotification('RESET_MESSAGE_CONFIG', resetConfig); // Send socket notification with reset message configuration
     },
 
@@ -102,7 +102,7 @@ Module.register("MMM-CustomMessage", {
       /* If history is enabled, read content from local file */
         if (this.config.enableHistory["value"] == "true") {			
 			this.readFileContent(function (response) {
-                console.log(this.name + " read from file: " + response);
+                Log.log(this.name + " read from file: " + response);
                 if (response != ""){
                     let jsonResponse = JSON.parse(response);
                     if (jsonResponse.message){
@@ -147,7 +147,7 @@ Module.register("MMM-CustomMessage", {
     // Function to handle socket notifications
     socketNotificationReceived: function (notification, payload) {
         // Log the received message
-        console.log(this.name + " received a new message: " + JSON.stringify(payload));
+        Log.log(this.name + " received a new message: " + JSON.stringify(payload));
 
         // If the notification is to reset now
         if (notification == "RESET_NOW") {
@@ -163,7 +163,7 @@ Module.register("MMM-CustomMessage", {
             if (payload.message || payload.message == "")
             {
                 // Log the application of the message
-                console.log(this.name + " applying message: " + payload.message);
+                Log.log(this.name + " applying message: " + payload.message);
                 // Set the inner HTML of the module body to the message
                 moduleBody.innerHTML = payload.message;
 		if (!payload.message) {
@@ -178,7 +178,7 @@ Module.register("MMM-CustomMessage", {
                 // Set the inner HTML of the custom header to the header message
                 customHeader.innerHTML = payload.messageHeader;
                 // Log the application of the header message
-                console.log(this.name + " applying message: " + payload.messageHeader);
+                Log.log(this.name + " applying message: " + payload.messageHeader);
             }
             if (payload.message == "/clear" || payload.message == "\\clear"){ //if you forget which type of slash to use for the command...
                 // Clear the inner HTML of the module body and custom header
