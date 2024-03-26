@@ -74,7 +74,7 @@ You will need a keyboard for text entry and a mouse to click the module into edi
 
 The API uses MagicMirror's ExpressApp backend. The default endpoint is `http:\\<your MagicMirror url or ip and port> + \custom-message` For example: `http:\\localhost:8080\custom-message` The endpoint accepts POST requests with a JSON body of the form:
 
-```js
+```json
 {
   "messageHeader": "Message Header Message",
   "message": "Message Text"
