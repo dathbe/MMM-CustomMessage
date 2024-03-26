@@ -27,7 +27,7 @@ module.exports = NodeHelper.create({
             if (err) { // If there's an error
                 Log.error(this.name + "Error writing to history file:", err); // Log the error
             } else {
-                res.send("Config file written successfully."); // Send a success message
+                Log.log("Config file written successfully."); // Send a success message
             }
         });     
     },
