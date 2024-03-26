@@ -80,3 +80,5 @@ The API uses MagicMirror's ExpressApp backend. The default endpoint is `http:\\<
   "message": "Message Text"
 }
 ```
+
+You can use `test.js` for testing and as a template. Run it by `node test.js`.
