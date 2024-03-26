@@ -5,6 +5,7 @@
  * MIT Licensed.
  */
 // Import required modules
+const Log = require("logger");
 const NodeHelper = require('node_helper');
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -14,7 +15,7 @@ module.exports = NodeHelper.create({
     // Function called when the module starts
     start: function () {
         this.resetConfig = {}; // Initialize reset configuration
-        console.log(this.name + ' helper started'); // Log that the helper has started
+        Log.log(this.name + ' helper started'); // Log that the helper has started
         this.handleApiRequest(); // Handle API requests   
     },
 
@@ -22,9 +23,9 @@ module.exports = NodeHelper.create({
     writeHistoryFile: function (text) {
         const fileName = "modules/MMM-CustomMessage/message-history.json"; // Define the file name
         fs.writeFile(fileName, text, (err) => { // Write to the file
-            console.log(this.name + " Writing to file", text); // Log the writing process
+            Log.log(this.name + " Writing to file", text); // Log the writing process
             if (err) { // If there's an error
-                console.log(this.name + "Error writing to history file:", err); // Log the error
+                Log.error(this.name + "Error writing to history file:", err); // Log the error
             } else {
                 res.send("Config file written successfully."); // Send a success message
             }
@@ -39,7 +40,7 @@ module.exports = NodeHelper.create({
             const time = this.resetConfig["time"].split(":"); // Split the reset time into hours and minutes
             const targetHour =  Number(time[0]) // Get the target hour
             const targetMinute = Number(time[1]) // Get the target minute
-            console.log(this.name + 'Reset set for Hour: ', targetHour, ', Min: ', targetMinute); // Log the reset time
+            Log.log(this.name + 'Reset set for Hour: ', targetHour, ', Min: ', targetMinute); // Log the reset time
             targetTime.setHours(targetHour, targetMinute, 0, 0); // Set the target time
         
             let timeToWait = targetTime - now; // Calculate how long to wait before resetting
@@ -47,17 +48,17 @@ module.exports = NodeHelper.create({
             if (timeToWait < 0) { // If the target time has already passed today
                 targetTime.setDate(targetTime.getDate() + 1); // Move to the next day
                 timeToWait = targetTime - now; // Recalculate how long to wait
-                console.log(this.name + ' Target time already passed, moving to next day'); // Log that the target time has passed and we're moving to the next day
+                Log.log(this.name + ' Target time already passed, moving to next day'); // Log that the target time has passed and we're moving to the next day
             }
-            console.log(this.name + ' TimeToWait: ', timeToWait); // Log how long we're waiting
+            Log.log(this.name + ' TimeToWait: ', timeToWait); // Log how long we're waiting
 
             setTimeout(() => { // Wait for the specified amount of time, then...
-                console.log(this.name + ' Reset message time is now. Retting message...'); 
+                Log.log(this.name + ' Reset message time is now. Retting message...'); 
                 this.writeHistoryFile(""); //clear history file
                 this.sendSocketNotification('RESET_NOW'); //send reset notification
             }, timeToWait);
         }   else {
-            console.log(this.name + ' Reset not enabled'); 
+            Log.log(this.name + ' Reset not enabled'); 
         }  
     },
     // Function to handle API requests
@@ -74,7 +75,7 @@ module.exports = NodeHelper.create({
             let stringBody = JSON.stringify(req.body)
 
             // Log the incoming webhook notification
-            console.log('Incoming webhook notification : ' + stringBody);
+            Log.log('Incoming webhook notification : ' + stringBody);
 
             // If the request body exists
             if (req.body){
@@ -101,7 +102,7 @@ module.exports = NodeHelper.create({
         // If the notification is 'RESET_MESSAGE_CONFIG'
         if (notification === 'RESET_MESSAGE_CONFIG') {
             // Log the reset message
-            console.log(this.name + ' Reset Message: ', JSON.stringify(payload));
+            Log.log(this.name + ' Reset Message: ', JSON.stringify(payload));
 
             // Update the reset configuration with the payload
             this.resetConfig = payload;
