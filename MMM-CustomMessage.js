@@ -160,7 +160,7 @@ Module.register("MMM-CustomMessage", {
 
         // If a new message is received
         if (notification == "NEW_MESSAGE_RECEIVED") {
-            if (payload.uniqueID) {
+            if (payload.uniqueID || this.config.uniqueID == "") {
 		    // If there's a message in the payload
 	            if (payload.message || payload.message == "") {
 	                // Log the application of the message
