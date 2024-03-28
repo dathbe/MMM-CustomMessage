@@ -32,7 +32,7 @@ Module.register("MMM-CustomMessage", {
             enabled: "false", // Reset message enabled value
             time: "00:00" // Reset message time in 24 hour format
         },
-	uniqueID = ""
+	uniqueID: ""
     },
 
     // Function called when the module starts
